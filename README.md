@@ -7,7 +7,7 @@
 -   Knex Queries
 -   Modular Code
 
-## Assignment
+## Assignment 
 
 For this lab you will
 
