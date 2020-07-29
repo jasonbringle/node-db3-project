@@ -55,7 +55,6 @@ function addStep(scheme_id, step ){
     return db("steps")
         .insert(newStep)
         .then(step => {
-            console.log(step)
             return db("steps").where({id:step})
         })
 }

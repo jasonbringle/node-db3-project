@@ -122,8 +122,7 @@ router.post("/:id/addstep", ( req, res) => {
   const { id } = req.params
   Schemes.addStep(id, body)
     .then(step =>{
-      console.log("IN ROUTER",step)
-      if(step){res.status(200).json(step)}{
+      if(step){res.status(200).json(step[0])}{
         res.status(500).json({ message: "No step was added"})
       }
     })
