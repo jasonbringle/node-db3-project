@@ -1,6 +1,7 @@
 const express = require('express');
 
 const Schemes = require('./scheme-model.js');
+const dbConfig = require('../data/db-config.js');
 
 const router = express.Router();
 
@@ -51,6 +52,8 @@ router.post('/', (req, res) => {
 
   Schemes.add(schemeData)
   .then(scheme => {
+    console.log(scheme)
+
     res.status(201).json(scheme);
   })
   .catch (err => {
@@ -113,5 +116,20 @@ router.delete('/:id', (req, res) => {
     res.status(500).json({ message: 'Failed to delete scheme' });
   });
 });
+
+router.post("/:id/addstep", ( req, res) => {
+  const body = req.body
+  const { id } = req.params
+  Schemes.addStep(id, body)
+    .then(step =>{
+      console.log("IN ROUTER",step)
+      if(step){res.status(200).json(step)}{
+        res.status(500).json({ message: "No step was added"})
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'There was a problem adding the step'})
+    })
+})
 
 module.exports = router;

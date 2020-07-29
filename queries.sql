@@ -47,3 +47,19 @@ SELECT [order].id AS OrderNumber,
        JOIN
        employee AS e ON [order].EmployeeId = e.id;
 
+--  STRETCH --
+
+-- -   Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 8 records.
+
+SELECT categoryName, count(distinct ProductName) as Count
+FROM products
+Join Categories on categories.categoryid = products.categoryID
+Group By CategoryName
+
+---   Display OrderID and a column called ItemCount that shows the total number of products placed on the order. Shows 196 records.
+
+Select o.OrderID, sum(o.Quantity) as ItemCount
+From OrderDetails as o
+group by o.orderID
+
+---

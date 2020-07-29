@@ -1,4 +1,5 @@
 const db = require('../data/db-config.js');
+const { json } = require('express');
 
 module.exports= {
     find,
@@ -6,7 +7,8 @@ module.exports= {
     findSteps,
     add,
     update,
-    remove
+    remove,
+    addStep
 }
 
 function find(){
@@ -25,19 +27,35 @@ function findSteps(id){
         .orderBy("step_number")
 }
 
-function add(scheme){
-     return db("schemes")
-        .insert(scheme)
-        .then(num =>{
-            db.findById(num) })
+function add(scheme) {
+    return db('schemes').insert(scheme)
+        .then(ids => {
+            return findById(ids[0])
+        })
 }
 
 function update(changes,id){
     return db("schemes")
         .where({id})
         .update(changes)
+        .then(num => {
+            if(num == 1){
+                return changes
+            } { return json({ errormessage: 'No update happened.'})
+            }       
+        })
 }
 
 function remove(id){
-      return db("schemes").where({id})
-  }
+      return db("schemes").where({id}).del();
+}
+
+function addStep(scheme_id, step ){
+    const newStep = {scheme_id, ...step}
+    return db("steps")
+        .insert(newStep)
+        .then(step => {
+            console.log(step)
+            return db("steps").where({id:step})
+        })
+}
